@@ -1,27 +1,19 @@
 Description:
 A lightweight, recursive-descent interpreter built from scratch in Java. 
 This project demonstrates the full lifecycle of a programming language, 
+
 from raw text input to an executable Abstract Syntax Tree (AST).
 
 Features:
+
 -Custom Lexer: Tokenizes source code into atomic units (Keywords, Identifiers, Numbers, Symbols).
+
 -Recursive Descent Parser: Validates syntax and builds a hierarchical AST, supporting nested blocks.
+
 -Strongly-Typed AST: Utilizes a polymorphic Statement interface to decouple parsing from execution.
+
 -Recursive Loops: Supports the REPEAT command with infinite nesting capability.
 
-
-Project Structure:
-src/
-├── LexParse/
-│   ├── Lexer.java       # Handles string-to-token conversion
-│   ├── Parser.java      # Handles token-to-AST conversion
-│   ├── Token.java       # Token data structure and Enums
-│   └── Statements/
-│       ├── Statement.java       # The base interface
-│       ├── MoveStatement.java   # Logic for 'MOVE' command
-│       └── RepeatStatement.java # Logic for 'REPEAT' recursion
-└── UI/
-    └── WIP :P
 
 Example Syntax for the Input.txt file
 
@@ -34,9 +26,13 @@ REPEAT 4 {
 }
 
 Getting Started:
+
 1.Clone the repository.
+
 2.Ensure you have JDK 11+ installed.
+
 3.Place your script in input.txt in the root directory.
+
 4.Run Main.java.
 
 
