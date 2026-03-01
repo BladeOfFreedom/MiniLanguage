@@ -1,0 +1,2 @@
+move 4 move 2
+repeat 2 { move 3 repeat 3 { move 5 move 6 } }
