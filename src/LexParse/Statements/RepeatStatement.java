@@ -1,5 +1,7 @@
 package LexParse.Statements;
 
+import Physics.PlayerClasses.PlayerOperations;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +15,12 @@ public class RepeatStatement implements Statement{
     }
 
     @Override
-    public void execute() {
+    public PlayerOperations execute() {
         System.out.println("This is a repeat statement with a count of " + count);
         for(int i = 0; i < count; i++){
             for(Statement s: statements)
                 s.execute();
         }
+        return PlayerOperations.SKIP;
     }
 }

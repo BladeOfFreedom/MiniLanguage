@@ -33,7 +33,7 @@ Getting Started:
 
 3.Place your script in input.txt in the root directory.
 
-4.Run Main.java.
+4.Run GameScene.Main.java.
 
 
 

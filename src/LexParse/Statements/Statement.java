@@ -1,5 +1,7 @@
 package LexParse.Statements;
 
+import Physics.PlayerClasses.PlayerOperations;
+
 public interface Statement {
-    public void execute();
+    public PlayerOperations execute();
 }
