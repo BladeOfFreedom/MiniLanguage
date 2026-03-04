@@ -8,10 +8,11 @@ public class Lexer {
 
     static {
         keywords = new HashMap<>();
+        keywords.put("END", TokenType.END);
         keywords.put("MOVE", TokenType.MOVE);
         keywords.put("REPEAT", TokenType.REPEAT);
-        keywords.put("START", TokenType.START);
-        keywords.put("END", TokenType.END);
+        keywords.put("JUMP", TokenType.JUMP);
+        keywords.put("TURN", TokenType.TURN);
         keywords.put("{", TokenType.L_BRACE);
         keywords.put("}", TokenType.R_BRACE);
         keywords.put("(", TokenType.L_PARENTHESES);
@@ -20,8 +21,9 @@ public class Lexer {
     }
 
     public static List<Token> tokenize(String input) {
-        Scanner inp = new Scanner(input);
         List<Token> tokens = new ArrayList<>();
+        // Flag for end statement
+        boolean endStatementSeen = false;
 
         int cursor = 0;
         while(cursor < input.length()){
@@ -31,6 +33,9 @@ public class Lexer {
                 cursor++;
                 continue;
             }
+            else if (endStatementSeen){
+                throw new RuntimeException("Statement seen after END!!");
+            }
             else if(Character.isLetter(c)){
                 // Word mode
                 StringBuilder value = new StringBuilder();
@@ -38,7 +43,17 @@ public class Lexer {
                     value.append(input.charAt(cursor));
                     cursor++;
                 }while (Character.isLetter(input.charAt(cursor)));
-                tokens.add(new Token(value.toString(), keywords.get(value.toString().toUpperCase())));
+
+                if(keywords.containsKey(value.toString().toUpperCase())){
+                    // If the token is end then make the flag true and continue the loop to check if there is a statement after end
+                    if(value.toString().equalsIgnoreCase("end")){
+                        endStatementSeen = true;
+                    }
+                    tokens.add(new Token(value.toString(), keywords.get(value.toString().toUpperCase())));
+                }
+                else
+                    throw new RuntimeException("No matching token type!! --> " + value);
+
             }
             else if(Character.isDigit(c)){
                 // Number mode
@@ -59,6 +74,9 @@ public class Lexer {
             }
         }
 
+        if(!endStatementSeen)
+            throw new RuntimeException("Input must include END statement at the end");
+
         System.out.println(printTokens(tokens));
         return tokens;
     }
@@ -68,10 +86,10 @@ public class Lexer {
     }
 
     public static String printTokens(List<Token> tokens){
-        String otp = "";
+        StringBuilder otp = new StringBuilder();
         for (Token t : tokens){
-            otp += t.toString() + "\n";
+            otp.append(t.toString()).append("\n");
         }
-        return otp;
+        return otp.toString();
     }
 }

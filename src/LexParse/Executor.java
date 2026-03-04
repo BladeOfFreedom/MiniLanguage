@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Executor {
+    //Returns the list of statements ready to be executed
     public static List<Statement> executeInput(){
         File file;
         try {
@@ -24,17 +25,18 @@ public class Executor {
             //parse the tokens to statements
             Parser parser = new Parser(tokens);
 
-            //return the ready to execute statements
+            //return tidied up statements
             return parser.parse();
-            //execute each statement one by one
-            /*for(Statement s: parsedStatements){
-                s.execute();
-            }*/
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
 
-
+    public static void executeStatements(List<Statement> statements){
+        //execute each statement one by one
+        for(Statement s: statements){
+            s.execute();
+        }
     }
 }

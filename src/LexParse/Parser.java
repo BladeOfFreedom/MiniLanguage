@@ -1,7 +1,5 @@
 package LexParse;
-import LexParse.Statements.MoveStatement;
-import LexParse.Statements.RepeatStatement;
-import LexParse.Statements.Statement;
+import LexParse.Statements.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +24,19 @@ public class Parser {
             //Advance if there is a token
             if(currentToken != null){
                 switch (currentToken.getTokenType()){
+                    case TokenType.END:
+                        //skip the end token
+                        //only this skip is hear because the other ones does it on their functions
+                        pointer++;
+                        break;
+
+                    case TokenType.TURN:
+                        statements.add(addTurnStatement());
+                        break;
+
+                    case TokenType.JUMP:
+                        statements.add(addJumpStatement());
+                        break;
                     case TokenType.MOVE:
                         statements.add(addMoveStatement());
                         break;
@@ -40,13 +51,38 @@ public class Parser {
                             advance();
                             return statements;
                         }
-                        //else
-                          //  throw new RuntimeException("End Paranthesis Missing!");
+                        else
+                          throw new RuntimeException("Start Parentheses Missing!");
                 }
 
             }
         }
         return statements;
+    }
+
+
+    private Statement addJumpStatement(){
+        //Skip the jump token
+        advance();
+        //Get the next token
+        Token currentToken = peek();
+        //Validate the token (jump statement doesn't wait a number after it)
+        if(currentToken == null || currentToken.getTokenType() == TokenType.NUMBER)
+            throw new RuntimeException("Statement after JUMP must not be a NUMBER! OR null Pointer!");
+
+        return new JumpStatement();
+    }
+
+    private Statement addTurnStatement(){
+        //Skip the turn token
+        advance();
+        //Get the next token
+        Token currentToken = peek();
+        //Validate the token (turn statement doesn't wait a number after it)
+        if(currentToken == null || currentToken.getTokenType() == TokenType.NUMBER)
+            throw new RuntimeException("Statement after TURN must not be a NUMBER! OR null Pointer!");
+
+        return new TurnStatement();
     }
 
     private Statement addMoveStatement(){

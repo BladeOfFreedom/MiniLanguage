@@ -41,7 +41,6 @@ public class PhysicsManager {
 			body1 = bodies.get(i);
 			for (int k = i + 1; k < bodies.size(); k++) {
 				body2 = bodies.get(k);
-				
 				//if collision occurred resolve it
 				if(checkCollision(body1, body2))
 					resolveCollision(body1, body2);

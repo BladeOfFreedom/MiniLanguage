@@ -43,7 +43,7 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 		
 		bodies.clear();
 
-		player = new Player(Executor.executeInput());
+		player = new Player();
 
 		p1 = new Plane2D(0, 790, 1200, 10, new Vector2D(0, -1));
 		p2 = new Plane2D(1190, 0, 10, 800, new Vector2D(-1, 0));
@@ -71,7 +71,7 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 	@Override
 	public void run() {
 
-		double updateInterval = 1000000000/FPS;
+		double updateInterval = (double) 1000000000 /FPS;
 		long lastTime = System.nanoTime();
 		long accummulatedTime = 0;
 		long currentTime;
@@ -87,7 +87,7 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 				//.1 update information such as object position
 				update(updateInterval / 1000000000);
 
-                accummulatedTime -= updateInterval;
+                accummulatedTime -= (long) updateInterval;
 			}
 
             //2. draw the screen with the updated information
@@ -119,8 +119,9 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 		Graphics2D g2 = (Graphics2D)g;
 		
 		for (RigidBody body : bodies) {
-			if(body instanceof Circle)
+			if(body instanceof Circle){
 				((Circle) body).draw(g2, Color.pink);
+			}
 
 			if(body instanceof Plane2D) {
 				((Plane2D) body).draw(g2, Color.cyan);
@@ -130,9 +131,7 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 				((Player) body).draw(g2, Color.black);
 			}
 		}
-		
 
-		
 		g2.dispose();
 		
 	}
@@ -145,8 +144,15 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		//First send all the parsed statements to the parseToPlayer function so it gets rid of the non player relater statements
+		//Then send the player ready statements to the executePlayerReadyStatements
+		//also send the player to it to
 		if(e.getKeyCode() == KeyEvent.VK_F2) {
-			player.executeStatements();
+			PlayerControl.executePlayerReadyStatements(
+					PlayerControl.parseToPlayer(
+							Executor.executeInput()
+					)
+					, player);
 		}
 		
 	}

@@ -5,11 +5,10 @@ import javax.swing.JFrame;
 public class Main {
 
 	public static void main(String[] args) {
-		
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
-		window.setTitle("Engine");
+		window.setTitle("Something is happening!!");
 		
 		Panel panel = new Panel();
 		
@@ -18,8 +17,8 @@ public class Main {
 		
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
-
 		panel.startEngineThread();
+
 	}
 
 }
