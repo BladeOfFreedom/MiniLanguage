@@ -1,12 +1,12 @@
 package Physics.PlayerClasses;
 
+import Physics.PhysicsManager;
 import Physics.Vector2d.Vector2D;
 import Physics.objects.RigidBody;
 
 import java.awt.*;
 
 public class Player extends RigidBody {
-    private static final double PIXELS_PER_METER = 100;
     private final double hurtBoxRadius;
 
     private Vector2D facingDirection = new Vector2D(1, 0);
@@ -30,7 +30,7 @@ public class Player extends RigidBody {
     }
 
     public void move_in_X(double distance) {
-        position.x += distance * PIXELS_PER_METER * facingDirection.x;
+        position.x += distance * PhysicsManager.getPixelsPerMeter() * facingDirection.x;
         //velocity.x = distance ---- will change the implementation of how this function will work
     }
 
@@ -40,7 +40,7 @@ public class Player extends RigidBody {
 
     public void jump(){
         // Stupid java has its y-axis reversed so have to multiply with -1 (want to work with positive on jump height)
-        position.y += 5 * PIXELS_PER_METER * -1;
+        velocity.y = -7 * PhysicsManager.getPixelsPerMeter();
     }
 
     public Vector2D getFacingDirection() {

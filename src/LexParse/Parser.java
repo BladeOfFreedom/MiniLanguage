@@ -53,6 +53,9 @@ public class Parser {
                         }
                         else
                           throw new RuntimeException("Start Parentheses Missing!");
+
+                    default:
+                        throw new RuntimeException("Token alone doesn't mean anything Token: " + currentToken.getTokenType());
                 }
 
             }
