@@ -18,6 +18,7 @@ public class Parser {
 
     public List<Statement> parse(){
         List<Statement> statements = new ArrayList<>();
+        boolean endReached = false;
         while (pointer < tokens.toArray().length){
             //Get the current token
             Token currentToken = peek();
@@ -27,7 +28,12 @@ public class Parser {
                     case TokenType.END:
                         //skip the end token
                         //only this skip is hear because the other ones does it on their functions
+                        endReached = true;
                         pointer++;
+                        break;
+
+                    case TokenType.DESCENT:
+                        statements.add(addDescentStatement());
                         break;
 
                     case TokenType.TURN:
@@ -60,9 +66,23 @@ public class Parser {
 
             }
         }
-        return statements;
+        if(endReached)
+            return statements;
+        else
+            throw new RuntimeException("No END token is reached!!");
     }
 
+    private Statement addDescentStatement(){
+        //Skip the jump token
+        advance();
+        //Get the next token
+        Token currentToken = peek();
+        //Validate the token (jump statement doesn't wait a number after it)
+        if(currentToken == null || currentToken.getTokenType() == TokenType.NUMBER)
+            throw new RuntimeException("Statement after DESCENT must not be a NUMBER! OR null Pointer!");
+
+        return new DescentStatement();
+    }
 
     private Statement addJumpStatement(){
         //Skip the jump token

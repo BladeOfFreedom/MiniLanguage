@@ -8,6 +8,7 @@ public class Lexer {
 
     static {
         keywords = new HashMap<>();
+        keywords.put("DESCENT", TokenType.DESCENT);
         keywords.put("END", TokenType.END);
         keywords.put("MOVE", TokenType.MOVE);
         keywords.put("REPEAT", TokenType.REPEAT);

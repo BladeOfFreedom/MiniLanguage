@@ -30,16 +30,22 @@ public class Player extends RigidBody {
     }
 
     public void move_in_X(double distance) {
-        position.x += distance * PhysicsManager.getPixelsPerMeter() * facingDirection.x;
-        //velocity.x = distance ---- will change the implementation of how this function will work
+        velocity.x = 0;
+        velocity.x = distance * PhysicsManager.getPixelsPerMeter() * facingDirection.x;
+    }
+
+    public void descent(){
+        // Stupid java has its y-axis reversed
+        velocity.y = 30 * PhysicsManager.getPixelsPerMeter();
     }
 
     public void turn_direction() {
         facingDirection.x *= -1;
+        velocity.x *= -1;
     }
 
     public void jump(){
-        // Stupid java has its y-axis reversed so have to multiply with -1 (want to work with positive on jump height)
+        // Stupid java has its y-axis reversed
         velocity.y = -7 * PhysicsManager.getPixelsPerMeter();
     }
 

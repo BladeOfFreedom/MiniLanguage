@@ -2,7 +2,7 @@ package LexParse;
 
 public enum TokenType {
     // Keywords
-    MOVE, REPEAT, JUMP, TURN,
+    MOVE, REPEAT, JUMP, TURN, DESCENT,
 
     // Literals
     NUMBER,

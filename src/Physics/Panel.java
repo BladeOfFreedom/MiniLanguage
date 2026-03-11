@@ -1,6 +1,7 @@
 package Physics;
 
 import LexParse.Executor;
+import LexParse.Statements.Statement;
 import Physics.PlayerClasses.*;
 import Physics.objects.*;
 import Physics.Vector2d.*;
@@ -10,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.swing.JPanel;
@@ -19,8 +21,9 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 	final int WIDTH = 1200;
 	final int HEIGHT = 800;
 	final int FPS = 60;
-	
+	boolean scriptDone = false;
 	public static CopyOnWriteArrayList<RigidBody> bodies = new CopyOnWriteArrayList<>();
+	List<Statement> playerReadyStatements = null;
 
 	Player player;
 
@@ -72,22 +75,35 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 	public void run() {
 
 		double updateInterval = (double) 1000000000 /FPS;
+		long executeInterval = 1000000000 / 5;
 		long lastTime = System.nanoTime();
-		long accummulatedTime = 0;
+		long accumulatedTimeUpdate = 0;
+		long accumulatedTimeExecute = 0;
 		long currentTime;
-		
+		int index = 0;
+
 		while(engineThread != null)
 		{
 			currentTime = System.nanoTime();
-			accummulatedTime += (currentTime - lastTime);
+			accumulatedTimeUpdate += (currentTime - lastTime);
+			accumulatedTimeExecute += (currentTime - lastTime);
 			lastTime = currentTime;
 			
-			while(accummulatedTime >= updateInterval) {
+			while(accumulatedTimeUpdate >= updateInterval) {
 				
 				//.1 update information such as object position
-				update(updateInterval / 1000000000);
+				if(accumulatedTimeUpdate >= updateInterval){
+					update(updateInterval / 1000000000);
 
-                accummulatedTime -= (long) updateInterval;
+					accumulatedTimeUpdate -= (long) updateInterval;
+				}
+
+				//EXECUTION
+				if(playerReadyStatements != null && index < playerReadyStatements.size() && accumulatedTimeExecute >= executeInterval){
+					PlayerControl.executeStatement(playerReadyStatements.get(index), player);
+					index++;
+					accumulatedTimeExecute = 0;
+				}
 			}
 
             //2. draw the screen with the updated information
@@ -147,12 +163,8 @@ public class Panel extends JPanel implements Runnable, KeyListener{
 		//First send all the parsed statements to the parseToPlayer function so it gets rid of the non player relater statements
 		//Then send the player ready statements to the executePlayerReadyStatements
 		//also send the player to it to
-		if(e.getKeyCode() == KeyEvent.VK_F2) {
-			PlayerControl.executePlayerReadyStatements(
-					PlayerControl.parseToPlayer(
-							Executor.executeInput()
-					)
-					, player);
+		if(e.getKeyCode() == KeyEvent.VK_F2 && !scriptDone) {
+			playerReadyStatements = PlayerControl.parseToPlayer(Executor.executeInput());
 		}
 		
 	}

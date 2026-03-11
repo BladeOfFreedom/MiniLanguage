@@ -1,1 +1,1 @@
-move 2 move 3 turn repeat 2 { move 2 move 2 } jump end
+move 6 move 0 turn repeat 3 { jump move 20 move 0 turn } descent move 20 move 0 end

@@ -16,7 +16,7 @@ public class RigidBody {
 		this.acceleration = new Vector2D(0, 0);
 		this.constantAcceleration = new Vector2D(0, 0);
 		this.inverseMass = 0.5;
-		this.e = 0.1;
+		this.e = 0.05;
 	}
 	
 	public RigidBody(double x, double y, Vector2D velocity, Vector2D acceleration, Vector2D constantAcceleration,double mass, double restitution) {
