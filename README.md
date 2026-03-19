@@ -14,8 +14,6 @@ Features:
 
 -Recursive Loops: Supports the REPEAT command with infinite nesting capability.
 
-- Physics Support: Implemented a physics enginge for rigid body manipulations with the given string
-
 Example Syntax for the Input.txt file
 
 MOVE 50
