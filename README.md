@@ -161,7 +161,14 @@ public List<Statement> parse(){
 
 ```
 
+## Demo
+- Here is a demo for the given script
+- move 6 move 0 turn repeat 3 { jump move 20 move 0 turn } descent move 20 move 0 end
+![ScriptDemo](https://github.com/user-attachments/assets/da92f6bc-a93f-4725-8fac-c76d6cb70bb3)
 
+## Quick Notes
+- Unfortunately the MOVE command changes the players velocity instead of actually moving the player for X amounts, so you have to do MOVE 0 to rest the velocity
+or you can give the next MOVE X higher so it cancels out
 
 ## Getting Started:
 
@@ -177,4 +184,5 @@ public List<Statement> parse(){
 - Planning to add more controls on the player
 - Add enemies to attack (maybe, too hard for now)
 - Add projectile shooting
+- Make new command for making commands instantaneous so it is possible to chain commands faster
 
